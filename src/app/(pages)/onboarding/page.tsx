@@ -1,17 +1,17 @@
 "use client";
 import { FcGoogle } from "react-icons/fc";
 
-
-import LandingAnimation from "@/components/LandingAnimation";
+import OnboardingAnimation from "@/components/OnboardingAnimation";
 import { signIn } from "@/lib/helper";
 
 export default function Onboarding() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-base-100">
       <div className="flex flex-col md:flex-row items-center w-full max-w-4xl mx-auto">
+        
         {/* Left side: Lottie Animation */}
         <div className="md:w-1/2 flex justify-center">
-          <LandingAnimation />
+          <OnboardingAnimation />
         </div>
 
         {/* Right side: Glass Box */}
@@ -30,7 +30,6 @@ export default function Onboarding() {
                 <FcGoogle size={25} /> Sign Up with Google
               </button>
             </form>
-
           </div>
         </div>
       </div>
