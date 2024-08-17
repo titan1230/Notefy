@@ -1,6 +1,10 @@
 import LandingAnimation from "@/components/LandingAnimation";
 import Navbar from "@/components/Navbar.server";
 
+export const metadata = {
+  title: "Notefy",
+}
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
