@@ -1,0 +1,41 @@
+import { NextRequest, NextResponse } from "next/server";
+import DBclient from "@/lib/db";
+import { ObjectId } from "mongodb";
+
+interface paramInterface {
+    userID: string | ObjectId;
+}
+
+export async function GET(req: NextRequest, { params }: { params: paramInterface }) {
+    try {
+        const { userID } = params;
+        const db = DBclient.db("notes");
+        const collection = db.collection("notes");
+
+        const objectId = typeof userID === "string" ? new ObjectId(userID) : userID;
+
+        const notes = await collection.find({ creatorID: objectId }).toArray();
+
+        return NextResponse.json({ userID: objectId.toString(), notes }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to fetch notes"}, { status: 500 });
+    }
+}
+
+export async function POST(req: NextRequest, { params }: { params: paramInterface }) {
+    try {
+        const { userID } = params;
+        const db = DBclient.db("notes");
+        const collection = db.collection("notes");
+
+        const objectId = typeof userID === "string" ? new ObjectId(userID) : userID;
+
+        const { title, body } = await req.json();
+
+        const result = await collection.insertOne({ creatorID: objectId, title, body });
+
+        return NextResponse.json({ note: result.insertedId }, { status: 201 });
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to create note" }, { status: 500 });
+    }
+}
