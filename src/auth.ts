@@ -1,30 +1,43 @@
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google"
 import client from "@/lib/db"
+import authConfig from "./auth.config";
 
- 
+export const BASE_PATH = "/api/auth";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google],
   adapter: MongoDBAdapter(client),
-  // pages: {
-  //   signIn: "/api/auth/sign-in",
-  //   signOut: "/api/auth/sign-out",
-  //   error: "/api/auth/error",
-  // },
-callbacks: {
-  authorized({ request, auth }) {
-    const { pathname } = request.nextUrl
-    if (pathname === "/middleware-example") return !!auth
-    return true
+  callbacks: {
+    authorized({ request, auth }) {
+      try {
+        const { pathname } = request.nextUrl;
+
+        const unprotectedRoutes = ["/", "/onboarding", "/api/auth/signin"];
+
+        if (unprotectedRoutes.includes(pathname)) {
+          return true;
+        }
+
+        return !!auth;
+      } catch (error) {
+        console.error("Authorization check failed:", error);
+        return false;
+      }
+    },
+    async session({ session, token }) {
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken as string;
+      }
+      return session;
+    },
   },
-  async session({ session, token }) {
-    if (token?.accessToken) {
-      session.accessToken = token.accessToken as string;
-    }
-    return session
+  basePath: BASE_PATH,
+  session: {
+    strategy: "jwt",
   },
-},
+  secret: process.env.AUTH_SECRET,
+  ...authConfig,
 })
 
 declare module "next-auth" {
@@ -32,6 +45,5 @@ declare module "next-auth" {
     accessToken?: string
   }
 }
-
 
 export const { GET, POST } = handlers
