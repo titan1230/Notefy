@@ -21,8 +21,6 @@ if (process.env.NODE_ENV === "development") {
   }
  
   if (!globalWithMongo._mongoClient) {
-
-    console.log(uri)
     globalWithMongo._mongoClient = new MongoClient(uri, options)
   }
   client = globalWithMongo._mongoClient
