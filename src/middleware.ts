@@ -10,26 +10,16 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const reqUrl = new URL(req.url);
-  if (!req.auth && reqUrl?.pathname !== "/") {
 
+  // Redirect unauthenticated users to onboarding unless on the root page
+  if (!req.auth && reqUrl?.pathname !== "/") {
     if (reqUrl.pathname === "/onboarding") return;
 
-    console.log("Redirecting to onboarding");
-    return NextResponse.redirect(
-      new URL(
-        `/onboarding`,
-        req.url
-      )
-    );
+    return NextResponse.redirect(new URL(`/onboarding`, req.url));
   }
 
+  // Redirect authenticated users from onboarding to dashboard
   if (req.auth && reqUrl?.pathname === "/onboarding") {
-    console.log("Redirecting to dashboard");
-    return NextResponse.redirect(
-      new URL(
-        `/dashboard`,
-        req.url
-      )
-    );
+    return NextResponse.redirect(new URL(`/dashboard`, req.url));
   }
 });
