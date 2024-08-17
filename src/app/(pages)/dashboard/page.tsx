@@ -4,9 +4,12 @@ import DashboardNavbar from '@/components/DashboardNavbar';
 export default async function Dashboard() {
   const session = await auth();
 
+
   const user = {
-    name: session!.user!.name || 'User',
-    profilePicture: session!.user!.image || '/default-profile.png',
+    name: session?.user?.name || 'User',
+    profilePicture: session?.user?.image || '/default-profile.png',
+    id: session?.user?.id || 'user',
+    username: session?.user?.username || 'user',
   };
 
   return (
@@ -16,7 +19,7 @@ export default async function Dashboard() {
       <main className="p-8">
         <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
         <p className="text-lg">
-          Welcome to your dashboard, {user.name}. Here you can manage your notes, settings, and more.
+          Welcome to your dashboard, {user.username}. Here you can manage your notes, settings, and more.
         </p>
 
         {/* Add dashboard content here */}
