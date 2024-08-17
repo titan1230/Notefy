@@ -25,8 +25,9 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
               <Image
                 src={user.profilePicture}
                 alt={`${user.name}'s profile`}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="40px"
               />
             </div>
           </div>
