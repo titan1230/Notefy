@@ -10,6 +10,7 @@ interface ParamInterface {
 interface NoteInterface {
     content: string;
     editorID: string;
+    title: string;
 }
 
 export async function GET(req: NextRequest, { params }: { params: ParamInterface }) {
@@ -45,7 +46,7 @@ export async function GET(req: NextRequest, { params }: { params: ParamInterface
 export async function PUT(req: NextRequest, { params }: { params: ParamInterface }) {
     try {
         const { noteID } = params;
-        const { content, editorID }: NoteInterface = await req.json();
+        const { content, editorID, title }: NoteInterface = await req.json();
 
         let objectId;
         try {
@@ -63,12 +64,11 @@ export async function PUT(req: NextRequest, { params }: { params: ParamInterface
             return NextResponse.json({ error: "Note not found" }, { status: 404 });
         }
 
-        console.log(note.creatorID.toString(), editorID);
         if (note.creatorID.toString() !== editorID) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
         }
 
-        await collection.updateOne({ _id: objectId }, { $set: {body: content} }, { upsert: true });
+        await collection.updateOne({ _id: objectId }, { $set: {body: content, title} }, { upsert: true });
 
         return NextResponse.json({ message: "Note updated" }, { status: 200 });
     } catch (error) {
