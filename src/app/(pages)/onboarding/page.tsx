@@ -4,11 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import OnboardingAnimation from "@/components/OnboardingAnimation";
 import { signIn } from "@/lib/helper";
 
-export const metadata = {
-  title: "Notefy",
-  description: "Organize Your Thoughts, Simplify Your Life",
-};
-
 export default function Onboarding() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-base-100">
