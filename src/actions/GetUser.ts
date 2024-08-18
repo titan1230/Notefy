@@ -7,3 +7,9 @@ export async function onGetUserAction() {
 
     return !!session?.user;
 }
+
+export async function getUserID() {
+    const session = await auth();
+
+    return session?.user.id;
+}
