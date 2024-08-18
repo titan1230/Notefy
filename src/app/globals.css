@@ -86,3 +86,75 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .prose {
+    @apply space-y-3; /* Equivalent to > * + * { margin-top: 0.75em; } */
+  }
+
+  .prose ul {
+    @apply list-disc ml-6;
+  }
+
+  .prose ol {
+    @apply list-decimal ml-6;
+  }
+
+  .prose h1 {
+    @apply text-2xl font-extrabold leading-tight;
+  }
+
+  .prose h2 {
+    @apply text-xl font-extrabold leading-tight;
+  }
+
+  .prose h3 {
+    @apply text-lg font-bold leading-tight;
+  }
+
+  .prose h4 {
+    @apply text-base leading-tight;
+  }
+
+  .prose h5 {
+    @apply text-sm leading-tight;
+  }
+
+  .prose h6 {
+    @apply text-xs leading-tight;
+  }
+
+  .prose code {
+    @apply bg-gray-200 text-gray-700;
+  }
+
+  .prose pre {
+    @apply bg-black text-white font-mono p-3.5 rounded-lg;
+  }
+
+  .prose pre code {
+    @apply text-inherit p-0 bg-none text-xs;
+  }
+
+  .prose img {
+    @apply max-w-full h-auto;
+  }
+
+  .prose blockquote {
+    @apply pl-4 border-l-2 border-gray-200;
+  }
+
+  .prose hr {
+    @apply border-none border-t-2 border-gray-200 my-8;
+  }
+
+  .prose p.is-editor-empty:first-child::before {
+    @apply text-gray-400;
+    content: attr(data-placeholder);
+    @apply float-left h-0 pointer-events-none;
+  }
+
+  .ProseMirror:focus {
+    @apply outline-none;
+  }
+}
