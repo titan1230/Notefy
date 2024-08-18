@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar.server";
 
 export const metadata = {
   title: "Notefy",
+  description: "Organize Your Thoughts, Simplify Your Life",
 }
 
 export default function Home() {
