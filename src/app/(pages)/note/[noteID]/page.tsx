@@ -1,3 +1,5 @@
+import { auth } from '@/auth';
+import Link from 'next/link';
 import React, { Suspense } from 'react';
 
 interface PropInterface {
@@ -31,33 +33,49 @@ async function fetchNoteContent(noteID: string) {
 
 const NoteContent = async ({ noteID }: { noteID: string }) => {
   const noteContent = await fetchNoteContent(noteID);
+  const session = await auth();
 
   if (noteContent.error) {
     return (
-      <div className='relative min-h-screen bg-[#101720]'>
-        <div className="absolute inset-0 flex justify-center items-center">
-          <p className="text-lg text-center text-white">The note you requested is either private or does not exist.</p>
+      <div className="relative min-h-screen bg-[#101720]">
+        <div className="absolute inset-0 flex justify-center items-center p-4">
+          <p className="text-lg text-center text-white">
+            The note you requested is either private or does not exist.
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="relative min-h-screen bg-[#101720]">
-      <h2 className="absolute top-4 left-4 bg-slate-70 text-white font-Grey_Qo p-2 rounded-md text-2xl font-semibold min-w-72 ">
+    <div className="relative min-h-screen bg-[#101720] p-4">
+      <h2 className="absolute top-4 left-4 bg-slate-700 text-white font-Grey_Qo p-2 rounded-md text-xl sm:text-2xl font-semibold min-w-72 z-10">
         {noteContent.title}
       </h2>
 
-      <div className="absolute inset-0 flex justify-center items-center">
-        <div className="bg-yellow-300 w-80 h-80 flex rounded-lg shadow-md p-5">
-          <textarea readOnly className="bg-yellow-300 w-full border-0 shadow-none resize-none h-full text-lg break-words focus:outline-none">
-            {noteContent.body}
-          </textarea>
+      {session?.user?.id === noteContent.creatorID ? (
+        <Link
+          href={`/note/${noteID}/edit`}
+          className="absolute top-4 right-4 bg-slate-700 text-white font-Grey_Qo p-2 rounded-md text-lg sm:text-xl font-semibold z-10"
+        >
+          Edit
+        </Link>
+      ) : null}
+
+      <div className="absolute inset-0 flex justify-center items-center p-4">
+        <div className="bg-yellow-300 w-full max-w-lg h-80 flex rounded-lg shadow-md p-5">
+          <textarea
+            value={noteContent.body}
+            readOnly
+            className="bg-yellow-300 w-full border-0 shadow-none resize-none h-full text-base sm:text-lg break-words focus:outline-none"
+          />
         </div>
       </div>
     </div>
   );
 };
+
+
 
 const Note = ({ params }: PropInterface) => {
   return (
