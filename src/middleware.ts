@@ -11,7 +11,8 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const reqUrl = new URL(req.url);
 
-  // Redirect unauthenticated users to onboarding unless on the root page
+  if (!req.auth && reqUrl?.pathname.startsWith("/note/")) return;
+
   if (!req.auth && reqUrl?.pathname !== "/") {
     if (reqUrl.pathname === "/onboarding") return;
 
