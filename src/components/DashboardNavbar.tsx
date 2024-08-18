@@ -3,11 +3,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { signOut } from '@/lib/helper';
+import Link from 'next/link';
 
 interface NavbarProps {
   user: {
     name: string;
     profilePicture: string;
+    id: string;
   };
 }
 
@@ -35,12 +37,10 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
             <li>
-              <a className="justify-between">
-                Profile
-              </a>
+              <Link href={`/user/${user.id}`}>Profile</Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link href={`/user/settings`}>Settings</Link>
             </li>
             <li onClick={() => (document.getElementById('my_modal_2') as HTMLDialogElement)?.showModal()}>
               <a>Logout</a>
@@ -81,9 +81,6 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
           <button >Close</button>
         </form>
       </dialog>
-
-
-
     </div>
 
   );
