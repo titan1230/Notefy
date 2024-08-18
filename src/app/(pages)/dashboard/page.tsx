@@ -1,5 +1,17 @@
 import { auth } from '@/auth';
+import { Metadata } from 'next';
+
 import DashboardNavbar from '@/components/DashboardNavbar';
+
+export const generateMetadata = async () => {
+
+  const session = await auth();
+  
+  return {
+    title: `${session?.user.username} | Dashboard`,
+    description: 'Welcome to your dashboard, where you can manage your notes, settings, and more.',
+  };
+}
 
 export default async function Dashboard() {
   const session = await auth();
