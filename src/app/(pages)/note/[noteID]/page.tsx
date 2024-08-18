@@ -52,7 +52,7 @@ const NoteContent = async ({ noteID }: { noteID: string }) => {
       <h2 className="absolute top-4 left-4 bg-slate-700 text-white font-Grey_Qo p-2 rounded-md text-xl sm:text-2xl font-semibold min-w-72 z-10">
         {noteContent.title}
       </h2>
-
+  
       {session?.user?.id === noteContent.creatorID ? (
         <Link
           href={`/note/${noteID}/edit`}
@@ -61,18 +61,18 @@ const NoteContent = async ({ noteID }: { noteID: string }) => {
           Edit
         </Link>
       ) : null}
-
+  
       <div className="absolute inset-0 flex justify-center items-center p-4">
-        <div className="bg-yellow-300 w-full max-w-lg h-80 flex rounded-lg shadow-md p-5">
-          <textarea
-            value={noteContent.body}
-            readOnly
-            className="bg-yellow-300 w-full border-0 shadow-none resize-none h-full text-base sm:text-lg break-words focus:outline-none"
+        <div className="bg-yellow-300 w-full max-w-lg h-80 flex rounded-lg shadow-md p-5 overflow-auto">
+          <div
+            dangerouslySetInnerHTML={{ __html: noteContent.body }}
+            className="bg-yellow-300 w-full h-full text-base sm:text-lg break-words"
           />
         </div>
       </div>
     </div>
   );
+  
 };
 
 
