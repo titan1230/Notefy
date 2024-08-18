@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import MenuBar from "@/components/TipTap/MenuBar";
 
@@ -23,7 +23,8 @@ Color.configure({
 const limit = 500;
 
 const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: string }) => {
-  const [noteData, setNoteData] = useState<string>("");
+  const [noteData, setNoteData] = useState<string>("<p>Loading...</p>");
+  const [title, setTitle] = useState<string>("Untitled Document");
 
 
   useEffect(() => {
@@ -34,7 +35,9 @@ const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: str
           throw new Error('Failed to fetch note data');
         }
         const data = await response.json();
-        setNoteData(data.content || "");
+        setNoteData(data.body);
+        setTitle(data.title);
+
       } catch (error) {
         console.error('Error fetching note data:', error);
       }
@@ -44,12 +47,13 @@ const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: str
   }, [noteID]);
 
   const editor = useEditor({
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: 'focus:outline-none prose',
       },
     },
-    content: noteData === "" ? "<p>Start Here</p>" : noteData,
+    content: noteData,
     extensions: [
       StarterKit,
       Color.configure({
@@ -65,38 +69,79 @@ const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: str
     ],
   });
 
-  const notify = () => {
-    toast.success('Data Saved Successfully', {
-      position: "bottom-right",
-      autoClose: 4000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
+  const handleInput = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = event.target.value || "Untitled Document";
+    setTitle(newTitle);
+
+    if (newTitle.length === 0) {
+      event.target.style.width = "170px";
+    } else {
+      event.target.style.width = `${(newTitle.length + 3) * 8}px`;
+    }
+  }, []);
+
+
+
+  const saveNote = useCallback(async () => {
+    try {
+      console.log(title)
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/note/${noteID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: noteID, title, content: editor?.getHTML(), editorID: editorID }),
+      });
+      toast.success('Data Saved Successfully', {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      console.error('Error saving note:', error);
+    }
+  }, [noteID, editorID, editor, title]);
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault();
+      saveNote();
+    }
+  }, [saveNote]);
+
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(noteData);
+    }
+  }, [editor, noteData]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown as any);
+    return () => document.removeEventListener('keydown', handleKeyDown as any);
+  }, [handleKeyDown]);
+
 
   return (
     <div className='bg-[#101720] w-screen h-screen relative'>
       <div className='navbar z-50 relative flex justify-between items-center p-4'>
         <div className='navbar-start'>
-          <h1 className='text-white text-2xl'>Note Editor</h1>
+          <input
+            type="text"
+            className="rounded h-[50px] min-w-[20px] pl-1 pr-1 text-white bg-transparent text-lg border-solid border-2 focus:outline-none focus:border-yellow-300"
+            value={title}
+            onInput={handleInput}
+            placeholder="Untitled Document"
+          />
         </div>
         <div className='navbar-end'>
           <button
-            onClick={() => {
-              fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/note/${noteID}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id: noteID, content: editor?.getHTML(), }),
-              })
-                .then(() => notify())
-                .catch((error) => console.error('Error saving note:', error));
-            }}
+            onClick={saveNote}
             className='bg-yellow-300 text-black font-Grey_Qo px-4 py-2 rounded-lg'
           >
             Save
