@@ -1,5 +1,5 @@
 import React from 'react';
-import { onGetUserAction } from '@/actions/NavGetUser';
+import { onGetUserAction } from '@/actions/GetUser';
 import NavbarContent from '@/components/NavbarContent';
 
 export default async function Navbar() {
