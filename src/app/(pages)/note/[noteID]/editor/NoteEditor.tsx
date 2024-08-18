@@ -1,11 +1,29 @@
 "use client";
 
-import { Suspense } from 'react';
-import { useParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
+import { redirect, useParams, useRouter } from 'next/navigation';
 import NoteEditorContent from '@/components/TipTap/Editor';
 
 const NoteEditor = ({ userID }: { userID: string }) => {
   const { noteID } = useParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAccess = async () => {
+      if (!noteID) return;
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/note/${noteID}`, { cache: "no-store" });
+
+      const data = await res.json();
+
+      if (data.creatorID !== userID) {
+        router.push(`/note/${noteID}`);
+      }
+    };
+
+    checkAccess();
+  }, [noteID, userID, router]);
+
 
   if (!noteID) {
     return <p>Loading...</p>;
