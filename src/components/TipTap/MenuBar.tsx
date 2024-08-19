@@ -88,7 +88,6 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         type="color"
         onInput={(event) => {
           const target = event.target as HTMLInputElement;
-          console.log(target.value);
           editor.chain().focus().setColor(target.value).run();
         }}
         value={editor.getAttributes('textStyle').color}
