@@ -55,7 +55,7 @@ const NoteContent = async ({ noteID }: { noteID: string }) => {
   
       {session?.user?.id === noteContent.creatorID ? (
         <Link
-          href={`/note/${noteID}/edit`}
+          href={`/note/${noteID}/editor`}
           className="absolute top-4 right-4 bg-slate-700 text-white font-Grey_Qo p-2 rounded-md text-lg sm:text-xl font-semibold z-10"
         >
           Edit
