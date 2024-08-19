@@ -1,10 +1,14 @@
-import LandingAnimation from "@/components/LandingAnimation";
+import dynamic from 'next/dynamic';
 import Navbar from "@/components/Navbar.server";
 
 export const metadata = {
   title: "Notefy",
   description: "Organize Your Thoughts, Simplify Your Life",
 }
+
+const LandingAnimation = dynamic(() => import('@/components/LandingAnimation'), {
+  loading: () => <span className='loading loading-spinner text-info'></span>,
+});
 
 export default function Home() {
   return (
