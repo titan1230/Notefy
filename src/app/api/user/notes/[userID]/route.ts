@@ -10,6 +10,7 @@ interface RequestInterface {
     title: string;
     body: string;
     visibility: string;
+    "bg_color": string;
 }
 
 export async function GET(req: NextRequest, { params }: { params: paramInterface }) {
@@ -36,9 +37,9 @@ export async function POST(req: NextRequest, { params }: { params: paramInterfac
 
         const objectId = typeof userID === "string" ? new ObjectId(userID) : userID;
 
-        const { title, body, visibility }: RequestInterface = await req.json();
+        const { title, body, visibility, bg_color }: RequestInterface = await req.json();
 
-        const result = await collection.insertOne({ creatorID: objectId, visibility, title, body,  });
+        const result = await collection.insertOne({ creatorID: objectId, visibility, title, body, "bg-color": bg_color});
 
         return NextResponse.json({ note: result.insertedId }, { status: 201 });
     } catch (error) {
