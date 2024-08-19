@@ -57,7 +57,7 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
         </div>
       </div>
 
-      <dialog id="my_modal_2" className="modal">
+      <dialog id="my_modal_2" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box flex flex-col items-center p-6 bg-white rounded-lg shadow-lg">
           <h3 className="font-bold text-lg mb-4">Confirm Logout</h3>
           <p className="text-center mb-6">Are you sure you want to log out? You’ll need to log in again to access your account.</p>
