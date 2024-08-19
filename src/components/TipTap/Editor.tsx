@@ -91,6 +91,7 @@ const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: str
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ id: noteID, title, content: editor?.getHTML(), editorID: editorID }),
+        cache: 'no-store',
       });
       toast.success('Data Saved Successfully', {
         position: "bottom-right",
