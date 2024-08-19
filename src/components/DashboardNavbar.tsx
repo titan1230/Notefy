@@ -8,7 +8,7 @@ import Link from 'next/link';
 interface NavbarProps {
   user: {
     name: string;
-    profilePicture: string;
+    image: string;
     id: string;
   };
 }
@@ -16,7 +16,7 @@ interface NavbarProps {
 const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
   return (
     <div className="navbar bg-base-100">
-      <div className="navbar-start flex items-center space-x-4 p-4">
+      <div className="navbar-start flex items-center space-x-4 ">
         <Image
           src="/favicon.ico"
           alt="Notefy Logo"
@@ -24,7 +24,7 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
           height={40}
           className="ml-2 mr-2 md:ml-5 md:mr-5"
         />
-        <h1 className="text-xl md:text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-xl md:text-2xl font-bold">Dashboard</h1>
       </div>
 
 
@@ -33,7 +33,7 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
           <div tabIndex={0} role="button" className="btn btn-ghost">
             <div className="relative w-10 h-10 rounded-full overflow-hidden mr-4">
               <Image
-                src={user.profilePicture}
+                src={user.image}
                 alt={`${user.name}'s profile`}
                 fill
                 style={{ objectFit: 'cover' }}
