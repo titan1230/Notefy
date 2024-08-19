@@ -16,9 +16,17 @@ interface NavbarProps {
 const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
   return (
     <div className="navbar bg-base-100">
-      <div className="navbar-start">
-        <span className="text-lg font-bold">Dashboard</span>
+      <div className="navbar-start flex items-center space-x-4 p-4">
+        <Image
+          src="/favicon.ico"
+          alt="Notefy Logo"
+          width={40}
+          height={40}
+          className="ml-2 mr-2 md:ml-5 md:mr-5"
+        />
+        <h1 className="text-xl md:text-3xl font-bold">Dashboard</h1>
       </div>
+
 
       <div className='navbar-end'>
         <div className="dropdown dropdown-end">
@@ -78,7 +86,7 @@ const DashboardNavbar: React.FC<NavbarProps> = ({ user }) => {
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button >Close</button>
+          <button>Close</button>
         </form>
       </dialog>
     </div>
