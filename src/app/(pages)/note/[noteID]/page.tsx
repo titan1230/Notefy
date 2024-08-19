@@ -35,7 +35,7 @@ const NoteContent = async ({ noteID }: { noteID: string }) => {
   const noteContent = await fetchNoteContent(noteID);
   const session = await auth();
 
-  if (noteContent.error) {
+  if (noteContent.error || (noteContent.visibility === "private" && session?.user?.id !== noteContent.creatorID)) {
     return (
       <div className="relative min-h-screen bg-[#101720]">
         <div className="absolute inset-0 flex justify-center items-center p-4">
