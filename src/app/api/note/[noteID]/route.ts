@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import DBclient from "@/lib/db";
 import { ObjectId } from "mongodb";
+import { auth } from "@/auth";
 
 interface ParamInterface {
     noteID: string | ObjectId;
@@ -16,6 +17,7 @@ interface NoteInterface {
 export async function GET(req: NextRequest, { params }: { params: ParamInterface }) {
     try {
         const { noteID } = params;
+        const session = await auth();
 
         let objectId;
         try {
@@ -33,7 +35,7 @@ export async function GET(req: NextRequest, { params }: { params: ParamInterface
             return NextResponse.json({ error: "Note not found" }, { status: 404 });
         }
 
-        if (note.visibility === "private") {
+        if (note.visibility === "private" && session?.user.id !== note.creatorID.toString()) {
             return NextResponse.json({ error: "Note is private" }, { status: 403 });
         }
 
