@@ -6,7 +6,7 @@ import MenuBar from "@/components/TipTap/MenuBar";
 
 // Toast
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-toastify/ReactToastify.min.css';
 
 // Extensions
 import StarterKit from '@tiptap/starter-kit';
