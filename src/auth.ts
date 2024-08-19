@@ -28,7 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     authorized({ request, auth }) {
       try {
         const { pathname } = request.nextUrl;
-        const unprotectedRoutes = ["/", "/onboarding", "/api/auth/signin", "/note/*"];
+        const unprotectedRoutes = ["/", "/onboarding", "/api/auth/signin"];
 
         if (unprotectedRoutes.includes(pathname)) {
           return true;
