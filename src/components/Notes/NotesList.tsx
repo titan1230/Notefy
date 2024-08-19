@@ -10,7 +10,7 @@ interface Note {
 }
 
 async function fetchNotes(userID: string): Promise<Note[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/notes/${userID}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/notes/${userID}`, { cache: 'no-store' });
   if (!response.ok) {
     throw new Error('Failed to fetch notes');
   }
