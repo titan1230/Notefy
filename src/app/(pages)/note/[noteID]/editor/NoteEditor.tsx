@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect } from 'react';
-import { redirect, useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import NoteEditorContent from '@/components/TipTap/Editor';
 
 const NoteEditor = ({ userID }: { userID: string }) => {
