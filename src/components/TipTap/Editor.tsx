@@ -84,7 +84,6 @@ const NoteEditorContent = ({ noteID, editorID }: { noteID: string, editorID: str
 
   const saveNote = useCallback(async () => {
     try {
-      console.log(title)
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/note/${noteID}`, {
         method: 'PUT',
         headers: {
