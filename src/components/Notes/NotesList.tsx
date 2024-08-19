@@ -23,12 +23,22 @@ const NotesList: React.FC<{ userID: string, refreshKey: number }> = ({ userID, r
 
   useEffect(() => {
     fetchNotes(userID).then(setNotes).catch(console.error);
-  }, [userID, refreshKey]); // Depend on refreshKey to trigger re-fetch
+  }, [userID, refreshKey]);
 
   if (!notes) {
     return (
       <div className="absolute inset-0 flex justify-center items-center">
-        You have created no notes. Get started by clicking the button above!
+        <span className='loading loading-spinner'></span>
+      </div>
+    );
+  }
+
+  if (notes.length === 0) {
+    return (
+      <div className="inset-0 flex justify-center items-center">
+        <p className="text-black mt-8">
+          You have created no notes. Get started by clicking the button above!
+        </p>
       </div>
     );
   }
