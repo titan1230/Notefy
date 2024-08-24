@@ -11,7 +11,8 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const reqUrl = new URL(req.url);
 
-  if (!req.auth && reqUrl.pathname !== "/note/new" && reqUrl?.pathname.startsWith("/note/") ) return;
+  if (!req.auth && reqUrl.pathname !== "/note/new" && reqUrl?.pathname.startsWith("/note/")) return;
+  if (!req.auth && reqUrl.pathname.startsWith("/user/")) return;
 
   if (!req.auth && reqUrl?.pathname !== "/") {
     if (reqUrl.pathname === "/onboarding") return;
