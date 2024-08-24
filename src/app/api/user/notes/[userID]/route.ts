@@ -16,10 +16,17 @@ interface RequestInterface {
 export async function GET(req: NextRequest, { params }: { params: paramInterface }) {
     try {
         const { userID } = params;
+        const public_only = req.nextUrl.searchParams.get("public_only");
+
         const db = DBclient.db("notes");
         const collection = db.collection("notes");
 
         const objectId = typeof userID === "string" ? new ObjectId(userID) : userID;
+
+        if (public_only) {
+            const notes = await collection.find({ creatorID: objectId, visibility: "public" }).toArray();
+            return NextResponse.json({ userID: objectId.toString(), notes }, { status: 200 });
+        }
 
         const notes = await collection.find({ creatorID: objectId }).toArray();
 
