@@ -86,8 +86,8 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
 
   return (
     <div className='bg-[#101720] w-screen h-screen relative'>
-      <div className='navbar z-50 relative flex justify-between items-center p-4'>
-        <div className='navbar-start'>
+      <div className='navbar z-50 relative flex flex-col sm:flex-row justify-between items-center p-4'>
+        <div className='navbar-start mb-4 sm:mb-0'>
           <p className='text-xl text-white font-Grey_Qo'>New Note</p>
         </div>
         <div className='navbar-end'>
@@ -104,7 +104,7 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
         <MenuBar editor={editor} />
       </div>
 
-      <div className="absolute inset-0 flex justify-center items-center p-4 z-0">
+      <div className="absolute inset-0 flex justify-center items-center p-4 z-0 mt-72 sm:mt-0">
         <div className="bg-yellow-300 w-full max-w-lg h-80 flex rounded-lg shadow-md p-5">
           <EditorContent
             editor={editor}
@@ -117,7 +117,7 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
       {/* DIALOGUE STARTS HERE */}
 
       <dialog id="save_modal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box flex flex-col items-center bg-white rounded-lg shadow-lg">
+        <div className="modal-box flex flex-col items-center bg-white rounded-lg shadow-lg max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl w-full max-h-[90vh] overflow-y-auto">
           <h3 className="font-bold text-lg mb-4">Save Finalize</h3>
           <p className="text-center mb-6">Fill out the fields below to finalize this note!</p>
 
@@ -128,9 +128,10 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
               redirect('/dashboard');
             }}
             method="post"
-            className="w-full grid grid-cols-[1fr_auto_1fr] gap-4 relative"
+            className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-8 relative"
           >
-            <div className="flex flex-col space-y-4">
+            {/* Left Side */}
+            <div className="flex flex-col space-y-4 md:pr-8">
               <div className="form-control">
                 <label htmlFor="title" className="label">
                   <span className="label-text text-black">Title</span>
@@ -163,21 +164,24 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
               </div>
             </div>
 
-            <div className="h-full border-l border-gray-300"></div>
+            {/* Divider */}
+            <div className="h-full border-l border-gray-300 mx-auto md:mx-0"></div>
 
-            <div className="flex flex-col space-y-4">
+            {/* Right Side */}
+            <div className="flex flex-col space-y-4 md:pl-8">
               <div className="form-control text-black">
                 <label htmlFor="backgroundColor" className="label">
                   <span className="label-text text-black">Background Color</span>
                 </label>
-                <ColorPicker color={color} hideAlpha onChange={color => setColor(color.hex)} />
+                <ColorPicker color={color} hideAlpha onChange={(color) => setColor(color.hex)} />
               </div>
             </div>
 
-            <div className="col-span-full flex space-x-4 mt-6 justify-center">
+            {/* Buttons */}
+            <div className="col-span-full flex flex-col sm:flex-row space-x-0 sm:space-x-4 space-y-4 sm:space-y-0 mt-6 justify-center">
               <button
                 type="button"
-                className="btn btn-error w-[100px] py-2 px-4 rounded-lg text-black bg-red-600 hover:bg-red-700"
+                className="btn btn-error w-full sm:w-[100px] py-2 px-4 rounded-lg text-black bg-red-600 hover:bg-red-700"
                 onClick={() => (document.getElementById('save_modal') as HTMLDialogElement).close()}
               >
                 Cancel
@@ -185,7 +189,7 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
 
               <button
                 type="submit"
-                className="btn btn-success w-[100px] py-2 px-4 rounded-lg text-white bg-green-600 hover:bg-green-700"
+                className="btn btn-success w-full sm:w-[100px] py-2 px-4 rounded-lg text-white bg-green-600 hover:bg-green-700"
               >
                 Save
               </button>
@@ -197,6 +201,10 @@ const NewNoteEditor = ({ editorID }: { editorID: string }) => {
           <button>Close</button>
         </form>
       </dialog>
+
+
+
+
 
     </div>
   );
