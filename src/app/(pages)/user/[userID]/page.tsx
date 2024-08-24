@@ -1,19 +1,36 @@
-import { auth } from '@/auth';
-import React from 'react'
+import { Suspense, use } from 'react';
 
-interface Props {
-  params: {
-    userID: string
-  }
+import UserProfile from '@/components/ProfileComponent';
+
+interface User {
+  _id: string;
+  name: string;
+  image: string;
+  error?: string;
 }
 
-const UserProfilePage = async ({ params }: Props) => {
+async function fetchUserData(userId: string): Promise<User> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/info/${userId}`, {
+    cache: 'no-store',
+  });
 
-  const session = await auth();
+  return res.json();
+}
+
+interface ProfilePageProps {
+  params: {
+    userID: string;
+  };
+}
+
+export default function ProfilePage({ params }: ProfilePageProps) {
+  const userId = params.userID;
+
+  const userPromise = fetchUserData(userId);
 
   return (
-    <div>{session?.user.id}</div>
-  )
+    <Suspense fallback={<div className="text-center text-gray-500">Loading user profile...</div>}>
+      <UserProfile userPromise={userPromise} />
+    </Suspense>
+  );
 }
-
-export default UserProfilePage;
