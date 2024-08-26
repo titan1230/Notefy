@@ -84,7 +84,7 @@ const config = {
         mytheme: {
           "primary": "#00a2c4",
           "primary-content": "#000a0e",
-          "secondary": "#952900",
+          "secondary": "#00c67a",
           "secondary-content": "#edd4cd",
           "accent": "#00a7ae",
           "accent-content": "#000a0b",
