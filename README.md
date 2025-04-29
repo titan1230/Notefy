@@ -1,4 +1,4 @@
-# Notefy – Full-Stack Note-Taking App
+# Notefy – Rich Note-Taking App
 
 ![Vercel](https://vercelbadge.vercel.app/api/titan1230/Notefy?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/titan1230/Notefy?style=for-the-badge)
