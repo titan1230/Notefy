@@ -43,13 +43,16 @@ cd Notefy
 ```bash
 npm install
 ```
-3. Setting Up Authentication
+3. Setting up authentication:
 ```bash
 npx auth secret
 ```
-4. Copy and fill the other environment variables from `.env.example`
-5. Run the development server
-6. Visit `http://localhost:3000` in your browser
+4. Copy and fill the other environment variables from `.env.example`.
+5. Run the development server:
+```bash
+npm run dev
+```
+6. Visit `http://localhost:3000` in your browser.
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
