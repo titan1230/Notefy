@@ -20,10 +20,10 @@
 Here’s a preview of the app:
 
 ### Home Page
-![Home Page](./public/screenshots/home-page.png)
+![Home Page](https://raw.githubusercontent.com/titan1230/CDN-Repo/main/uploads/Notefy-Home.png)
 
 ### Create/Edit Note
-![Create/Edit Note](./public/screenshots/create-note.png)
+![Create/Edit Note](https://raw.githubusercontent.com/titan1230/CDN-Repo/refs/heads/main/uploads/Notefy-Note.png)
 
 ## 🛠 Tech Stack
 
